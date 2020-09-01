@@ -23,13 +23,14 @@ public class PessoaBean implements Serializable {
 
     //Objeto
     private Pessoa pessoa;
+    //Objeto temporario de Estado
+    private Estado estado;
     //Lista com os dados para a tabela
     private List<Pessoa> pessoas;
     //Lista com os dados para o select
     private List<Cidade> cidades;
     private List<Estado> estados;
-    //Objeto temporario de Estado
-    private Estado estado;
+
 
     //Gets e Sets
     public Pessoa getPessoa() {
@@ -38,6 +39,14 @@ public class PessoaBean implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public List<Pessoa> getPessoas() {
@@ -64,14 +73,6 @@ public class PessoaBean implements Serializable {
         this.estados = estados;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
     //Metodo para listar todos os dados da tabela ao carregar a tela
     //PostConstruct - Realizar a listagem dos dados logo após o metodo construtor desta classe
     //ser chamado
@@ -79,7 +80,7 @@ public class PessoaBean implements Serializable {
     public void listar() {
         try {
             PessoaDAO pessoaDAO = new PessoaDAO();
-            pessoas = pessoaDAO.listar("nome");
+            pessoas = pessoaDAO.listar("nome"); //"nome" - Campo a ser ordenado
         } catch (RuntimeException erro) {
             //Mensagem de erro
             Messages.addGlobalError("ERROR ao listar!");
@@ -93,12 +94,10 @@ public class PessoaBean implements Serializable {
         try {
             //instanciação do objeto por um metodo e limpeza de campos
             pessoa = new Pessoa();
-
             estado = new Estado();
 
             //Populando menu de seleção
             EstadoDAO estadoDAO = new EstadoDAO();
-            //("nome") - Campo a ser ordenado
             estados = estadoDAO.listar("nome");
 
             //Criando seleção vazia
@@ -128,7 +127,6 @@ public class PessoaBean implements Serializable {
 
             //Populando menu de seleção
             EstadoDAO estadoDAO = new EstadoDAO();
-            //("nome") - Campo a ser ordenado
             estados = estadoDAO.listar("nome");
 
             //Criando seleção vazia
@@ -156,14 +154,13 @@ public class PessoaBean implements Serializable {
             pessoaDAO.excluir(pessoa);
 
             //Atualização dos registros
-            //("nome") - Campo a ser ordenado
             pessoas = pessoaDAO.listar("nome");
 
             //Mensagem de sucesso
             Messages.addGlobalInfo("Pessoa excluida com sucesso!");
         } catch (RuntimeException erro) {
             //Mensagem de erro
-            Messages.addGlobalError("ERROR ao salvar!");
+            Messages.addGlobalError("ERROR ao excluir!");
             //Imprimir erro no log do console
             erro.printStackTrace();
         }

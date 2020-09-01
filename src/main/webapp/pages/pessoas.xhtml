@@ -14,34 +14,33 @@
 
     <h:form id="formListagem">
         <p:panel header="Pessoas - Listagem">
-            <!--
-            emptyMessage - Mensagem quando não há registros
+            <!--emptyMessage - Mensagem quando não há registros
             Paginator - Opções de troca de pagina
             value - Ligação entre a tela e o modelo
-            var - Cursor para o desenho das linhas
-            -->
+            var - Cursor para o desenho das linhas-->
             <p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado"
                          paginator="true" value="#{pessoaBean.pessoas}" var="pessoa"
                          rows="5">
                 <f:facet name="footer">
-                    <!--
-                    actionListener - Chamada do metodo para instanciar o objeto, antes da tela de
-                    input ser gerada
-                    oncomplete - Tornar visivel a janela flutuante, assim que o evento do botão é finalizado
-                    update - Atuailizar a area do form "formCadastro" e do panelGrid "painel",
-                    quando este botão é pressionado, para limpar os campos
-                    -->
+                    <!--actionListener - Chamada do metodo para instanciar o objeto,
+					antes da tela de input ser gerada
+                    oncomplete - Tornar visivel a janela flutuante, assim que o evento
+                    do botão é finalizado
+                    update - Atuailizar a area do form "formCadastro" e do panelGrid
+                    "painel", quando este botão é pressionado, para limpar os campos-->
                     <p:commandButton value="Novo" actionListener="#{pessoaBean.novo}"
                                      oncomplete="PF('dialogo').show();"
                                      update=":mensagem :formCadastro:painel">
                         <!--actionListener - Resetar estado dos inputs-->
-                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
+                        <f:actionListener
+                                type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
                     </p:commandButton>
                 </f:facet>
 
-                <p:column headerText="Nome" sortBy="#{pessoa.nome}" filterBy="#{pessoa.nome}">
+                <p:column headerText="Nome" sortBy="#{pessoa.nome}"
+                          filterBy="#{pessoa.nome}">
                     <!--outputText - Será impresso nesta coluna o registro "Nome",
-                    com ajudo do cursor "pessoa" -->
+                    com ajudo do cursor "pessoa"-->
                     <h:outputText value="#{pessoa.nome}"/>
                 </p:column>
 
@@ -55,24 +54,23 @@
 
                 <p:column headerText="Opções">
                     <!--Botão excluir-->
-                    <p:commandButton icon="ui-icon-trash"
-                                     actionListener="#{pessoaBean.excluir}"
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{pessoaBean.excluir}"
                                      update=":mensagem :formListagem:tabela">
                         <!--Chamada da janela de confirmação-->
-                        <p:confirm header="Confirmação"
-                                   message="Deseja excluir esta pessoa?" icon="ui-icon-alert"/>
+                        <p:confirm header="Confirmação" message="Deseja excluir esta pessoa?"
+                                   icon="ui-icon-alert"/>
                         <!--Passagem de atributo de qual linha deve ser excluida-->
                         <f:attribute name="pessoaSelecionada" value="#{pessoa}"/>
                     </p:commandButton>
 
                     <!--Botão editar-->
-                    <p:commandButton icon="ui-icon-pencil"
-                                     actionListener="#{pessoaBean.editar}"
+                    <p:commandButton icon="ui-icon-pencil" actionListener="#{pessoaBean.editar}"
                                      update=":mensagem :formCadastro:painel"
                                      oncomplete="PF('dialogo').show();">
                         <f:attribute name="pessoaSelecionada" value="#{pessoa}"/>
                         <!-- Resete do estado de validação -->
-                        <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
+                        <f:actionListener
+                                type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -91,12 +89,11 @@
     <p:dialog header="Pessoas - Cadastro" widgetVar="dialogo"
               draggable="false" resizable="false" modal="true">
         <h:form id="formCadastro">
-            <!--
-            value - Ligação entre este input e o controle, armazenando o que é digitado
+            <!--value - Ligação entre este input e o controle, armazenando o que é
+            digitado
             converter - Convertor generico do OmniFaces para chave estrangeira
             required - Determina campo como obrigatorio
-            requiredMessage - Mensagem de erro quando campo estiver vazio
-            -->
+            requiredMessage - Mensagem de erro quando campo estiver vazio-->
             <h:panelGrid id="painel" columns="2">
                 <p:outputLabel for="nome" value="Nome:" />
                 <p:inputText id="nome" maxlength="50" size="30"
@@ -121,7 +118,8 @@
                     <f:selectItems value="#{pessoaBean.estados}" var="estado"
                                    itemValue="#{estado}" itemLabel="#{estado.nome}"/>
                     <!--Chama metodo "popular" e atuailiza o select "Cidade"-->
-                    <p:ajax listener="#{pessoaBean.popular}" update=":formCadastro:cidade"/>
+                    <p:ajax listener="#{pessoaBean.popular}"
+                            update=":formCadastro:cidade"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="cidade" value="Cidade:"/>
