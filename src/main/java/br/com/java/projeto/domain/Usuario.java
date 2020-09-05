@@ -1,9 +1,6 @@
 package br.com.java.projeto.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
@@ -33,12 +30,39 @@ public class Usuario extends GenericDomain {
 		return tipo;
 	}
 
+	//Transient - Indica que o metodo a seguir não faz referencia a um campo fisico do Banco de Dados
+	@Transient
+	public String getTipoFormatado() {
+		String tipoFormatado = null;
+
+		if (tipo == 'A') {
+			tipoFormatado = "Administrador";
+		} else if (tipo == 'B') {
+			tipoFormatado = "Balconista";
+		} else if (tipo == 'G') {
+			tipoFormatado = "Gerente";
+		}
+
+		return tipoFormatado;
+	}
+
 	public void setTipo(Character tipo) {
 		this.tipo = tipo;
 	}
 
 	public Boolean getAtivo() {
 		return ativo;
+	}
+
+	@Transient
+	public String getAtivoFormatado() {
+		String ativoFormatado = "Não Ativo";
+
+		if (ativo) {
+			ativoFormatado = "Ativo";
+		}
+
+		return ativoFormatado;
 	}
 
 	public void setAtivo(Boolean ativo) {
