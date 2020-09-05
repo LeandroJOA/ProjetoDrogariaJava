@@ -11,8 +11,8 @@
     <!--Carregamento de codigos JavaScripts adicionais de "resources"-->
     <h:outputScript library="js" name="scripts.js"/>
 </h:head>
-<h:body>
-    <!-- Mensagem flutuante -->
+<h:body style="background-color:#252525;">
+    <!--Mensagem flutuante-->
     <p:growl id="mensagem"/>
 
     <h:form id="formListagem">
@@ -56,10 +56,11 @@
                         <f:convertDateTime locale="pt_BR"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Liberado" sortBy="#{cliente.liberado}">
+                <p:column headerText="Liberado" sortBy="#{cliente.liberadoFormatado}">
+                    <h:outputText value="#{cliente.liberadoFormatado}"/>
                     <!--Caixa de seleção atrelado ao cursor-->
-                    <p:selectBooleanCheckbox value="#{cliente.liberado}"
-                                             disabled="true"/>
+                    <!--<p:selectBooleanCheckbox value="#{cliente.liberado}"
+                                             disabled="true"/>-->
                 </p:column>
                 <p:column headerText="Opções">
                     <!--Botão excluir-->
@@ -118,7 +119,7 @@
                 <p:calendar id="dataCadastro" value="#{clienteBean.cliente.dataCadastro}" required="true"
                             requiredMessage="O campo 'Pessoa' é obrigatório" size="4" locale="pt_BR"/>
 
-                <p:outputLabel for="liberado" value="Liberado"/>
+                <p:outputLabel for="liberado" value="Liberado: "/>
                 <p:selectBooleanCheckbox id="liberado" value="#{clienteBean.cliente.liberado}"/>
             </h:panelGrid>
 

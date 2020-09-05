@@ -2,12 +2,7 @@ package br.com.java.projeto.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
@@ -33,6 +28,17 @@ public class Cliente extends GenericDomain {
 
 	public Boolean getLiberado() {
 		return liberado;
+	}
+
+	@Transient
+	public String getLiberadoFormatado() {
+		String liberadoFormatado = "Não Liberado";
+
+		if (liberado) {
+			liberadoFormatado = "Liberado";
+		}
+
+		return liberadoFormatado;
 	}
 
 	public void setLiberado(Boolean liberado) {
