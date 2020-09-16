@@ -27,16 +27,16 @@ public class GenericDAO<Entidade> {
 		Transaction transacao = null;
 
 		try {
-			transacao = sessao.beginTransaction();
-			sessao.save(entidade);
-			transacao.commit();
-		} catch (RuntimeException error) {
-			if (transacao != null) {
-				transacao.rollback();
-				throw error;
-			}
-		} finally {
-			sessao.close();
+				transacao = sessao.beginTransaction();
+				sessao.save(entidade);
+				transacao.commit();
+			} catch (RuntimeException error) {
+				if (transacao != null) {
+					transacao.rollback();
+					throw error;
+				}
+			} finally {
+				sessao.close();
 		}
 	}
 
