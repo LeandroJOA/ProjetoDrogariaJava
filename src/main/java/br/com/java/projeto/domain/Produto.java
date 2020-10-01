@@ -2,10 +2,7 @@ package br.com.java.projeto.domain;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
@@ -22,6 +19,11 @@ public class Produto extends GenericDomain {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Fabricante fabricante;
+
+	//Armazena caminho do arquivo de upload temporario
+	//@Transient - Informa que é um campo temporario
+	@Transient
+	private String caminho;
 
 	public String getDescricao() {
 		return descricao;
@@ -55,4 +57,11 @@ public class Produto extends GenericDomain {
 		this.fabricante = fabricante;
 	}
 
+	public String getCaminho() {
+		return caminho;
+	}
+
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
+	}
 }
