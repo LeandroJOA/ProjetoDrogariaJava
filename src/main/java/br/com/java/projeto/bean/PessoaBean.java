@@ -178,10 +178,10 @@ public class PessoaBean implements Serializable {
 
             //Populando menu de seleção
             EstadoDAO estadoDAO = new EstadoDAO();
-            estados = estadoDAO.listar();
+            estados = estadoDAO.listar("nome");
 
             CidadeDAO cidadeDAO = new CidadeDAO();
-            cidades = cidadeDAO.listar();
+            cidades = cidadeDAO.buscarPorEstado(estado.getCodigo());
         } catch (RuntimeException erro) {
             //Mensagem de erro
             Messages.addGlobalError("ERROR ao listar seleção!");
