@@ -100,7 +100,8 @@
     <!--Janela flutuante-->
     <p:dialog header="Produtos - Cadastro" widgetVar="dialogo"
               draggable="false" resizable="false" modal="true">
-        <h:form id="formCadastro">
+        <!--enctype - Utilizado para realizar Upload-->
+        <h:form id="formCadastro" enctype="multipart/form-data">
             <!--
             value - Ligação entre este input e o controle, armazenando o que é digitado
             converter - Convertor generico do OmniFaces para chave estrangeira
@@ -141,6 +142,10 @@
                     <f:selectItems value="#{produtoBean.fabricantes}" var="fabricante"
                                    itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}"/>
                 </p:selectOneMenu>
+
+                <p:outputLabel for="foto" value="foto"/>
+                <p:fileUpload id="foto" mode="advanced" fileUploadListener="#{produtoBean.upload}"
+                              update=":mensagem" auto="true"/>
             </h:panelGrid>
 
             <h:panelGrid columns="4">
