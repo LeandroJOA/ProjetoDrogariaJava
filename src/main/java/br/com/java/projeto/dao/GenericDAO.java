@@ -125,14 +125,17 @@ public class GenericDAO<Entidade> {
 		}
 	}
 
-	public void merge(Entidade entidade) {
+	public Entidade merge(Entidade entidade) {
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
 
 		try {
 			transacao = sessao.beginTransaction();
-			sessao.merge(entidade);
+			//Captura o objeto salvo junto de sua chave primaria
+			Entidade retorno = (Entidade) sessao.merge(entidade);
 			transacao.commit();
+			//Retorna este objeto
+			return retorno;
 		} catch (RuntimeException error) {
 			if (transacao != null) {
 				transacao.rollback();
@@ -141,5 +144,6 @@ public class GenericDAO<Entidade> {
 		} finally {
 			sessao.close();
 		}
+		return null;
 	}
 }
