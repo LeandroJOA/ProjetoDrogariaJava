@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -93,6 +94,12 @@ public class ProdutoBean implements Serializable {
     //Metodo para o botão "Salvar"
     public void salvar() {
         try {
+            //Tornando o upload de um arquivo obrigatorio
+            if (produto.getCaminho() == null) {
+                Messages.addGlobalError("O campo \'Upload\' é obrigatório!");
+                return;
+            }
+
             //Chamada do metodo merge
             ProdutoDAO produtoDAO = new ProdutoDAO();
             //Armazena o objeto preenchido em "produtoRetorno"
@@ -139,12 +146,18 @@ public class ProdutoBean implements Serializable {
             ProdutoDAO produtoDAO = new ProdutoDAO();
             produtoDAO.excluir(produto);
 
+            //Captura caminho do arquivo referente ao produto atual
+            Path arquvio = Paths.get("D:/Dev/Java WEB/Uploads/" + produto.getCodigo() + ".png");
+            //Deleta este arquivo, caso ele exista
+            Files.deleteIfExists(arquvio);
+
             //Atualização dos registros
             produtos = produtoDAO.listar();
 
             //Mensagem de sucesso
             Messages.addGlobalInfo("Produto excluido com sucesso!");
-        } catch (RuntimeException erro) {
+        // | - Indica que poderá ser tratado um erro RunTime ou IO
+        } catch (RuntimeException | IOException erro) {
             //Mensagem de erro
             Messages.addGlobalError("ERROR ao excluir!");
             //Imprimir erro no log do console
@@ -161,6 +174,9 @@ public class ProdutoBean implements Serializable {
             //Populando menu de seleção
             FabricanteDAO fabricanteDAO = new FabricanteDAO();
             fabricantes = fabricanteDAO.listar();
+
+            //Preenche o caminho do produto atual com seu respectivo arquivo de upload (Caso não exista = null)
+            produto.setCaminho("D:/Dev/Java WEB/Uploads/" + produto.getCodigo() + ".png");
         } catch (RuntimeException erro) {
             //Mensagem de erro
             Messages.addGlobalError("ERROR ao listar seleção!");

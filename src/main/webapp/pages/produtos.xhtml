@@ -99,7 +99,7 @@
 
     <!--Janela flutuante-->
     <p:dialog header="Produtos - Cadastro" widgetVar="dialogo"
-              draggable="false" resizable="false" modal="true">
+              draggable="true" resizable="false" modal="true">
         <!--enctype - Utilizado para realizar Upload-->
         <h:form id="formCadastro" enctype="multipart/form-data">
             <!--
@@ -143,9 +143,17 @@
                                    itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel for="foto" value="foto"/>
-                <p:fileUpload id="foto" mode="advanced" fileUploadListener="#{produtoBean.upload}"
-                              update=":mensagem" auto="true"/>
+                <p:outputLabel for="upload" value="Upload:"/>
+                <p:fileUpload id="upload" mode="advanced" fileUploadListener="#{produtoBean.upload}"
+                              update=":mensagem :formCadastro:foto" auto="true"/>
+
+                <p:outputLabel for="foto" value="Foto:"/>
+                <!--Representação visual da imagem enviada, atraves do atributo "foto" de "ImagemBean"-->
+                <p:graphicImage id="foto" value="#{imagemBean.foto}" width="200" height="200">
+                    <!--Passa um atributo chamado "caminho", contendo o caminho da imagem armazenada
+                     em "ProdutoBean", como parametro para "ImagemBean" assim que o chama-->
+                    <f:param name="caminho" value="#{produtoBean.produto.caminho}"/>
+                </p:graphicImage>
             </h:panelGrid>
 
             <h:panelGrid columns="4">
